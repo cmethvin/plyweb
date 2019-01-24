@@ -2,7 +2,7 @@ import 'components/Pieces.less'
 
 import React from 'react'
 
-const pieceBaseDim = 135
+const pieceBaseDim = 125
 const pieceShift = 50
 
 const Piece = ({ width, height, quantity }) => {

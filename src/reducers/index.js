@@ -7,6 +7,28 @@ const initial = {
     quantity: 1,
     errors: {},
     list: {}
+  },
+  sheets: {
+    kerfInput: 0.25,
+    kerf: 0.25
+  }
+}
+
+const sheets = (state = initial.sheets, action) => {
+  switch (action.type) {
+    case 'CHANGE_KERF':
+      const { kerfInput } = action.payload
+      return {
+        ...state,
+        kerfInput: kerfInput
+      }
+    case 'UPDATE_SHEET_SETTINGS':
+      return {
+        ...state,
+        kerf: parseFloat(state.kerfInput)
+      }
+    default:
+      return state
   }
 }
 
@@ -64,5 +86,6 @@ const pieces = (state = initial.pieces, action) => {
 }
 
 export default combineReducers({
-  pieces
+  pieces,
+  sheets
 })

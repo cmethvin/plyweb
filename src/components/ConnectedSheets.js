@@ -3,6 +3,7 @@ import Sheets from 'components/Sheets'
 
 const mapStateToProps = state => {
   const { list } = state.pieces
+  const { kerf } = state.sheets
 
   let pieces = selectPieces(list)
 
@@ -20,22 +21,41 @@ const mapStateToProps = state => {
   ]
 
   for (var i = 0; i < pieces.length; i++) {
-    fit(pieces[i], sheets)
+    fit(pieces[i], sheets, kerf)
   }
 
   return {
+    ...state.sheets,
     sheets
   }
 }
 
-const fit = (piece, sheets) => {
+const mapDispatchToProps = dispatch => {
+  return {
+    changeKerf: (e) => {
+      dispatch({
+        type: 'CHANGE_KERF',
+        payload: {
+          kerfInput: e.target.value
+        }
+      })
+    },
+    updateSettings: () => {
+      dispatch({
+        type: 'UPDATE_SHEET_SETTINGS'
+      })
+    }
+  }
+}
+
+const fit = (piece, sheets, kerf) => {
   let node
   for (var i = 0; i < sheets.length; i++) {
     let sheet = sheets[i]
     node = findNode(sheet.root, piece.width, piece.height)
 
     if (node) {
-      split(node, piece.width, piece.height)
+      split(node, piece.width, piece.height, kerf)
       sheet.pieces.push({
         width: piece.width,
         height: piece.height,
@@ -60,7 +80,7 @@ const fit = (piece, sheets) => {
     node = findNode(sheet.root, piece.width, piece.height)
 
     if (node) {
-      split(node, piece.width, piece.height)
+      split(node, piece.width, piece.height, kerf)
       sheet.pieces.push({
         width: piece.width,
         height: piece.height,
@@ -88,19 +108,19 @@ const findNode = (root, width, height) => {
   return null
 }
 
-const split = (node, width, height) => {
+const split = (node, width, height, kerf) => {
   node.used = true
   node.down = {
     x: node.x,
-    y: node.y + height,
+    y: node.y + height + kerf,
     width: node.width,
-    height: node.height - height,
+    height: node.height - height - kerf,
     used: false
   }
   node.right = {
-    x: node.x + width,
+    x: node.x + width + kerf,
     y: node.y,
-    width: node.width - width,
+    width: node.width - width - kerf,
     height,
     used: false
   }
@@ -127,4 +147,4 @@ const selectPieces = (list) => {
   return pieces
 }
 
-export default connect(mapStateToProps)(Sheets)
+export default connect(mapStateToProps, mapDispatchToProps)(Sheets)

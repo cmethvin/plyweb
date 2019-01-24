@@ -19,6 +19,13 @@ const Sheet = ({ pieces }) => {
   </div>
 }
 
-export default ({ sheets }) => <div id='ply-sheets'>
+export default ({ sheets, kerfInput, changeKerf, updateSettings }) => <div id='ply-sheets'>
+  <div className='ply-sheets__controls'>
+    <div>
+      <label htmlFor='kerf'>Kerf</label>
+      <input type='text' id='kerf' value={kerfInput} onChange={changeKerf} />
+    </div>
+    <button type='button' className='ply-button' onClick={updateSettings}>Update</button>
+  </div>
   {sheets.map((s, i) => <Sheet key={i} {...s} />)}
 </div>
