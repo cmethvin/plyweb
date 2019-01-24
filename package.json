@@ -2,6 +2,9 @@
   "name": "plyui",
   "version": "1.0.0",
   "description": "Plywood UI",
+  "scripts": {
+    "build": "webpack"
+  },
   "private": true,
   "devDependencies": {
     "babel-cli": "6.18.0",

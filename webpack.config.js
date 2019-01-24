@@ -13,7 +13,7 @@ paths.output = path.join(__dirname, 'docs/scripts')
 
 module.exports = {
   context: paths.source,
-  entry: 'ui',
+  entry: 'index.js',
   output: {
     filename: app + '-ui.js',
     path: paths.output
